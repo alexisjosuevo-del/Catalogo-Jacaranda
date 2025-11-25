@@ -1,0 +1,748 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>La Jacaranda - Menú interactivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --jacaranda-morado: #7e4ba6;
+      --jacaranda-morado-oscuro: #5b327b;
+      --jacaranda-crema: #fff7ec;
+      --jacaranda-dorado: #c9933f;
+      --texto: #2d2d2d;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #f5e9ff 0, #fff 40%, #ffe9cf 100%);
+      color: var(--texto);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      box-shadow: 0 18px 45px rgba(59, 35, 94, 0.18);
+      padding: 24px 18px 28px;
+      border: 1px solid rgba(126, 75, 166, 0.18);
+      backdrop-filter: blur(18px);
+    }
+    @media (min-width: 768px) {
+      .container {
+        padding: 30px 32px 34px;
+      }
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+    .logo-wrapper {
+      background: radial-gradient(circle at top, #ffe9cf 0, #fff 55%);
+      border-radius: 999px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+    .logo-wrapper img {
+      height: 80px;
+      width: auto;
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .logo-wrapper img {
+        height: 110px;
+      }
+    }
+    .header-text h1 {
+      font-size: 1.7rem;
+      letter-spacing: 0.03em;
+      color: var(--jacaranda-morado-oscuro);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .header-text p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (min-width: 768px) {
+      .header-text h1 { font-size: 2rem; }
+      .header-text p { font-size: 0.95rem; }
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      margin: 16px 0 20px;
+      background: #000;
+      height: 220px;
+    }
+    @media (min-width: 768px) {
+      .carousel { height: 300px; }
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      height: 100%;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.15);
+    }
+    .carousel-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0.05));
+    }
+    .carousel-caption {
+      position: absolute;
+      left: 18px;
+      bottom: 14px;
+      color: #fff;
+      z-index: 2;
+    }
+    .carousel-caption h2 {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+    .carousel-caption span {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+    @media (min-width: 768px) {
+      .carousel-caption h2 { font-size: 1.4rem; }
+      .carousel-caption span { font-size: 0.9rem; }
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transition: background 0.2s, transform 0.2s;
+      z-index: 3;
+    }
+    .carousel-button span {
+      font-size: 1.2rem;
+      color: var(--jacaranda-morado-oscuro);
+    }
+    .carousel-button:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.03);
+    }
+    .carousel-button.prev { left: 12px; }
+    .carousel-button.next { right: 12px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      display: flex;
+      gap: 6px;
+      z-index: 3;
+    }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.55);
+      cursor: pointer;
+      transition: width 0.2s, background 0.2s;
+    }
+    .carousel-dot.active {
+      width: 18px;
+      background: var(--jacaranda-dorado);
+    }
+
+    .subtitle {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: var(--jacaranda-morado-oscuro);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subtitle::before {
+      content: "";
+      width: 26px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--jacaranda-morado), var(--jacaranda-dorado));
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 640px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 1024px) {
+      .cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .card {
+      background: linear-gradient(135deg, #fff, #fffaf3);
+      border-radius: 18px;
+      padding: 12px 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border: 1px solid rgba(201,147,63,0.25);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.09);
+      border-color: rgba(126,75,166,0.55);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--jacaranda-morado-oscuro);
+    }
+    .card-tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(126,75,166,0.07);
+      color: var(--jacaranda-morado-oscuro);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .card-description {
+      font-size: 0.8rem;
+      color: #555;
+      line-height: 1.4;
+    }
+    .card-ingredients-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 4px;
+      color: #444;
+    }
+    .card-ingredients {
+      font-size: 0.75rem;
+      color: #666;
+    }
+    .card-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .whatsapp-btn {
+      flex: 1;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: none;
+      padding: 6px 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(18,140,126,0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+    .whatsapp-btn span {
+      font-size: 1rem;
+    }
+    .whatsapp-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(18,140,126,0.45);
+      opacity: 0.95;
+    }
+    .card-note {
+      font-size: 0.7rem;
+      color: #999;
+      text-align: right;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 0.72rem;
+      color: #999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-wrapper">
+        <img src="img/logo_jacaranda.jpeg" alt="Logo La Jacaranda" />
+      </div>
+      <div class="header-text">
+        <h1>La Jacaranda</h1>
+        <p>Menú interactivo para compartir nuestros platillos y resolver tus dudas por WhatsApp.</p>
+      </div>
+    </header>
+
+    <section class="carousel" id="carousel">
+      <div class="carousel-track" id="carouselTrack">
+
+        <div class="carousel-slide" data-index="0">
+          <img src="img/A_high-resolution_photograph_presents_a_close-up_o.png" alt="Pollo al horno">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Pollo al horno</h2>
+            <span>Pollo horneado lentamente, jugoso por dentro y dorado por fuera, acompañado de guarnición casera.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="1">
+          <img src="img/A_high-resolution_digital_photograph_showcases_a_M.png" alt="Carne enchilada">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Carne enchilada</h2>
+            <span>Carne marinada en adobo rojo ligeramente picante, asada a la plancha al momento.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="2">
+          <img src="img/A_photograph_showcases_a_plate_of_carne_asada,_gri.png" alt="Cecina">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Cecina</h2>
+            <span>Cecina suave a la plancha, servida con frijoles, nopales y salsa hecha en casa.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="3">
+          <img src="img/A_photograph_showcases_a_plate_of_slow-roasted_por.png" alt="Carne de puerco y res al horno">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Carne de puerco y res al horno</h2>
+            <span>Combinación de carne de res y puerco horneadas lentamente con hierbas aromáticas.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="4">
+          <img src="img/A_digital_photograph_showcases_a_white,_round_cera.png" alt="Burritos">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Burritos</h2>
+            <span>Burritos grandes y bien rellenos con guiso casero, frijoles y queso.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="5">
+          <img src="img/A_high-resolution_digital_photograph_showcases_thr.png" alt="Tacos dorados">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Tacos dorados</h2>
+            <span>Crujientes tacos dorados rellenos, servidos con lechuga, crema y queso.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="6">
+          <img src="img/A_digital_photograph_showcases_a_torta,_a_traditio.png" alt="Guajolotes">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Guajolotes</h2>
+            <span>Tradicional guajolote al estilo Tulancingo, torta bañada en salsa de chile y rellena de sabor.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="7">
+          <img src="img/A_photograph_showcases_Enchiladas_Suizas_served_on.png" alt="Enchiladas suizas">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Enchiladas suizas</h2>
+            <span>Enchiladas bañadas en cremosa salsa verde y gratinadas con queso.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="8">
+          <img src="img/A_photograph_of_enchiladas_huastecas_showcases_the.png" alt="Enchiladas huastecas">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Enchiladas huastecas</h2>
+            <span>Enchiladas típicas de la Huasteca, con salsa de chile y acompañadas de cecina.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="9">
+          <img src="img/A_photograph_showcases_a_close-up_of_two_golden-br.png" alt="Sincronizadas">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Sincronizadas</h2>
+            <span>Sincronizadas bien doraditas, rellenas de jamón y queso con guarnición de pico de gallo.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="10">
+          <img src="img/A_photograph_presents_a_close-up_of_four_golden-br.png" alt="Flautas">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Flautas</h2>
+            <span>Flautas crujientes recién doradas, servidas con lechuga, crema y queso.</span>
+          </div>
+        </div>
+    
+        <div class="carousel-slide" data-index="11">
+          <img src="img/A_photograph_showcases_chilaquiles_on_a_white,_rou.png" alt="Chilaquiles">
+          <div class="carousel-gradient"></div>
+          <div class="carousel-caption">
+            <h2>Chilaquiles</h2>
+            <span>Tradicionales chilaquiles de la casa con totopos crujientes y salsa recién hecha.</span>
+          </div>
+        </div>
+    
+      </div>
+      <button class="carousel-button prev" id="prevBtn" aria-label="Platillo anterior">
+        <span>&lsaquo;</span>
+      </button>
+      <button class="carousel-button next" id="nextBtn" aria-label="Siguiente platillo">
+        <span>&rsaquo;</span>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <h2 class="subtitle">Platillos destacados</h2>
+
+    <section class="cards-grid" id="cardsGrid">
+
+      <article class="card" data-index="0">
+        <div class="card-header">
+          <h3 class="card-title">Pollo al horno</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Pollo horneado lentamente, jugoso por dentro y dorado por fuera, acompañado de guarnición casera.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Pieza de pollo, mezcla de especias de la casa, ajo, cebolla, aceite de oliva, sal y pimienta.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Pollo+al+horno+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #01</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="1">
+        <div class="card-header">
+          <h3 class="card-title">Carne enchilada</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Carne marinada en adobo rojo ligeramente picante, asada a la plancha al momento.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Res seleccionada, chile guajillo, chile ancho, ajo, vinagre, orégano, sal y pimienta.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Carne+enchilada+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #02</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="2">
+        <div class="card-header">
+          <h3 class="card-title">Cecina</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Cecina suave a la plancha, servida con frijoles, nopales y salsa hecha en casa.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Cecina de res, sal de grano, frijoles refritos, nopales, cebolla, tortillas de maíz.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Cecina+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #03</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="3">
+        <div class="card-header">
+          <h3 class="card-title">Carne de puerco y res al horno</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Combinación de carne de res y puerco horneadas lentamente con hierbas aromáticas.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Pulpa de cerdo, res, ajo, cebolla, hierbas finas, vino blanco, sal y pimienta.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Carne+de+puerco+y+res+al+horno+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #04</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="4">
+        <div class="card-header">
+          <h3 class="card-title">Burritos</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Burritos grandes y bien rellenos con guiso casero, frijoles y queso.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortilla de harina, guiso del día, frijoles refritos, queso rallado, lechuga, crema y salsa.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Burritos+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #05</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="5">
+        <div class="card-header">
+          <h3 class="card-title">Tacos dorados</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Crujientes tacos dorados rellenos, servidos con lechuga, crema y queso.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortillas de maíz, pollo o res deshebrada, lechuga, crema, queso fresco y salsa verde.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Tacos+dorados+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #06</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="6">
+        <div class="card-header">
+          <h3 class="card-title">Guajolotes</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Tradicional guajolote al estilo Tulancingo, torta bañada en salsa de chile y rellena de sabor.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Bolillo, frijoles, milanesa o longaniza, salsa roja, cebolla, crema y queso.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Guajolotes+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #07</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="7">
+        <div class="card-header">
+          <h3 class="card-title">Enchiladas suizas</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Enchiladas bañadas en cremosa salsa verde y gratinadas con queso.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortillas de maíz, pollo deshebrado, salsa verde cremosa, queso gratinado, crema y cebolla.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Enchiladas+suizas+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #08</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="8">
+        <div class="card-header">
+          <h3 class="card-title">Enchiladas huastecas</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Enchiladas típicas de la Huasteca, con salsa de chile y acompañadas de cecina.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortillas de maíz, salsa de chile seco, queso fresco, cecina, cebolla y crema.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Enchiladas+huastecas+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #09</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="9">
+        <div class="card-header">
+          <h3 class="card-title">Sincronizadas</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Sincronizadas bien doraditas, rellenas de jamón y queso con guarnición de pico de gallo.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortillas de harina, jamón, queso manchego, mantequilla, pico de gallo y guacamole.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Sincronizadas+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #10</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="10">
+        <div class="card-header">
+          <h3 class="card-title">Flautas</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Flautas crujientes recién doradas, servidas con lechuga, crema y queso.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Tortillas de maíz, pollo deshebrado, lechuga, crema, queso fresco, salsa verde y roja.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Flautas+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #11</span>
+        </div>
+      </article>
+    
+      <article class="card" data-index="11">
+        <div class="card-header">
+          <h3 class="card-title">Chilaquiles</h3>
+          <span class="card-tag">Especial</span>
+        </div>
+        <p class="card-description">Tradicionales chilaquiles de la casa con totopos crujientes y salsa recién hecha.</p>
+        <p class="card-ingredients-title">Ingredientes principales</p>
+        <p class="card-ingredients">Totopos de maíz, salsa roja o verde, crema, queso fresco, cebolla, huevo o pollo.</p>
+        <div class="card-footer">
+          <a class="whatsapp-btn" href="https://wa.me/525648557617?text=Hola%2C+me+gustar%C3%ADa+m%C3%A1s+informaci%C3%B3n+sobre+el+platillo+Chilaquiles+de+La+Jacaranda." target="_blank" rel="noopener noreferrer">
+            <span>💬</span> Preguntar por WhatsApp
+          </a>
+          <span class="card-note">ID #12</span>
+        </div>
+      </article>
+    
+    </section>
+
+    <p class="footer-note">
+      Para pedidos especiales o eventos pregunta por disponibilidad en el WhatsApp 5648557617.
+    </p>
+  </div>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    let currentIndex = 0;
+    let autoplayId = null;
+
+    function createDots() {
+      slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.dataset.index = index;
+        dot.addEventListener('click', () => {
+          goToSlide(index);
+          restartAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      const dots = Array.from(dotsContainer.children);
+      dots.forEach(dot => dot.classList.remove('active'));
+      const activeDot = dots[currentIndex];
+      if (activeDot) activeDot.classList.add('active');
+    }
+
+    function goToSlide(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+      const offset = -index * 100;
+      track.style.transform = `translateX(${offset}%)`;
+      updateDots();
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      autoplayId = setInterval(nextSlide, 6000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayId) {
+        clearInterval(autoplayId);
+        autoplayId = null;
+      }
+    }
+
+    function restartAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      restartAutoplay();
+    });
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      restartAutoplay();
+    });
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const index = Number(card.dataset.index) || 0;
+        goToSlide(index);
+        restartAutoplay();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    createDots();
+    startAutoplay();
+  </script>
+</body>
+</html>
